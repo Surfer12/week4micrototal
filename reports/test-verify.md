@@ -4,7 +4,7 @@ I'll help set up test benches to verify each component systematically, starting 
 
 ```plain text:circuits/NAND_test.asc
 Version 4
-.lib "C:\Users\ryano\OneDrive\Desktop\LogicLibraryAlt\simulation_build\ModelSp2025.txt"SHEET 1 880 680
+.lib SHEET 1 880 680
 WIRE 176 128 144 128
 WIRE 176 160 144 160
 WIRE 304 144 272 144
@@ -32,7 +32,7 @@ TEXT -24 360 Left 2 !.model PMOS PMOS
 
 ```plain text:circuits/INVERT_test.asc
 Version 4
-.lib "C:\Users\ryano\OneDrive\Desktop\LogicLibraryAlt\simulation_build\ModelSp2025.txt"SHEET 1 880 680
+.lib SHEET 1 880 680
 WIRE 176 128 144 128
 WIRE 304 128 272 128
 FLAG 304 128 out
@@ -53,7 +53,7 @@ TEXT -24 360 Left 2 !.model PMOS PMOS
 
 ```plain text:circuits/ANDx_test.asc
 Version 4
-.lib "C:\Users\ryano\OneDrive\Desktop\LogicLibraryAlt\simulation_build\ModelSp2025.txt".include "NAND.asc"
+.lib .include "NAND.asc"
 .include "INVERT.asc"
 SHEET 1 880 680
 WIRE 176 128 144 128
@@ -83,7 +83,7 @@ TEXT -24 360 Left 2 !.model PMOS PMOS
 
 ```plain text:circuits/half_adder_test.asc
 Version 4
-.lib "C:\Users\ryano\OneDrive\Desktop\LogicLibraryAlt\simulation_build\ModelSp2025.txt".include "NAND.asc"
+.lib .include "NAND.asc"
 .include "INVERT.asc"
 .include "ANDx.asc"
 SHEET 1 880 680
