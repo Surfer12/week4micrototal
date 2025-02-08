@@ -22,21 +22,80 @@
    1  1  |  0    1
    ```
 
-2. **Gate-Level Implementation**
-   - XOR gate for Sum calculation
-   - AND gate for Carry generation
-   - NAND-based implementation for optimization
-   - Optimized LSB block (Carry-in = 0)
+2. **Full Adder Implementation**
 
-3. **Boolean Expressions**
+   - **Inputs and Outputs:**
+     - A = First input bit
+     - B = Second input bit
+     - Cin = Carry input from previous stage
+   - **Outputs:**
+     - Sum = Final sum output (A ⊕ B ⊕ Cin)
+     - Cout = Carry output to next stage ((A • B) + Cin(A ⊕ B))
 
-   ```
-   Sum = A ⊕ B
-   Carry = A • B
-   NAND Implementation: 
-   Sum = (A NAND A) NAND (B NAND B)
-   Carry = NOT(A NAND B)
-   ```
+   - **Truth Table:**
+
+     | A | B | Cin | Sum | Cout |
+     |---|---|-----|-----|------|
+     | 0 | 0 | 0   | 0   | 0    |
+     | 0 | 0 | 1   | 1   | 0    |
+     | 0 | 1 | 0   | 1   | 0    |
+     | 0 | 1 | 1   | 0   | 1    |
+     | 1 | 0 | 0   | 1   | 0    |
+     | 1 | 0 | 1   | 0   | 1    |
+     | 1 | 1 | 0   | 0   | 1    |
+     | 1 | 1 | 1   | 1   | 1    |
+
+   - **Boolean Expressions:**
+
+     ```
+     Sum = A ⊕ B ⊕ Cin
+     Cout = (A • B) + Cin(A ⊕ B)
+
+     NAND Implementation:
+     Sum = NAND(NAND(A ⊕ B, Cin), NAND(A ⊕ B, NAND(Cin, Cin)))
+     Cout = NAND(NAND(A, B), NAND(Cin, A ⊕ B))
+     ```
+
+   - **Component Implementation:**
+     1. **Required Components:**
+        - 2x Half Adders (existing)
+        - Additional NAND gates
+        - Additional INVERT gates
+        - OR gate (implemented using NAND-INVERT)
+
+     2. **Signal Flow:**
+
+        ```
+        First Half Adder:
+        - Inputs: A, B
+        - Outputs: Sum1, Carry1
+
+        Second Half Adder:
+        - Inputs: Sum1, Cin
+        - Outputs: FinalSum, Carry2
+
+        Final Carry:
+        - Cout = Carry1 OR Carry2
+        ```
+
+     3. **Testing Strategy:**
+        1. **Component Level Testing:**
+           - Verify each half adder independently
+           - Test NAND to OR conversion
+           - Validate carry propagation
+
+        2. **Integration Testing:**
+           - Full input combination verification
+           - Timing analysis
+           - Load testing
+
+        3. **Test Bench Requirements:**
+
+           ```
+           - Input patterns for all 8 combinations
+           - Timing constraints: setup = 1ns, hold = 1ns
+           - Maximum propagation delay = 10ns
+           ```
 
 ### Integration with ALU
 
