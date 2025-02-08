@@ -272,3 +272,123 @@ The computer implements a basic instruction set with the following formats:
    - Latency measurements
    - Throughput calculation
    - Power estimation
+
+## Adder Architectures Comparison {{adder_comparison}}
+
+### 1. Ripple Carry Adder (RCA) - Current Implementation
+
+- **Structure:** Chain of full adders with carry propagation
+- **Characteristics:**
+  - Simple design, minimal gate count
+  - Linear delay (n * delay_FA)
+  - Power efficient for small bit widths
+- **Performance Metrics:**
+
+  ```
+  Gate Count: n * (gates_per_FA)
+  Delay: O(n) where n = bit width
+  Power: Low (minimal switching activity)
+  Area: Small (compact layout)
+  ```
+
+### 2. Carry Save Adder (CSA)
+
+- **Structure:** Matrix of full adders without carry propagation
+- **Implementation Plan:**
+
+  ```
+  - Convert current full adders to CSA arrangement
+  - Add final CPA (Carry Propagate Adder) stage
+  - Optimize for parallel operation
+  ```
+
+- **Expected Metrics:**
+
+  ```
+  Gate Count: ~1.5x RCA
+  Delay: O(log n)
+  Power: Medium (parallel operations)
+  Area: Medium (matrix layout)
+  ```
+
+### 3. Carry Lookahead Adder (CLA)
+
+- **Boolean Expressions:**
+
+  ```
+  Generate: Gi = Ai • Bi
+  Propagate: Pi = Ai ⊕ Bi
+  Carry: Ci+1 = Gi + Pi • Ci
+  Sum: Si = Pi ⊕ Ci
+  ```
+
+- **Implementation Strategy:**
+  - 4-bit CLA blocks
+  - Group carry generation
+  - Parallel prefix computation
+
+### 4. Hierarchical CLA (HCLA)
+
+- **Structure:**
+
+  ```
+  Level 1: 4-bit CLA blocks
+  Level 2: Group CLA
+  Level 3: Super-group CLA
+  ```
+
+- **Optimization Goals:**
+  - Balance fan-out
+  - Minimize wire length
+  - Reduce critical path
+
+### 5. Kogge-Stone Adder (KS)
+
+- **Design Features:**
+  - Parallel prefix adder
+  - Minimal logic depth
+  - Regular layout structure
+- **Implementation Phases:**
+
+  ```
+  1. Pre-processing (Generate/Propagate)
+  2. Prefix tree computation
+  3. Post-processing (Sum generation)
+  ```
+
+### Performance Comparison Matrix
+
+| Adder Type | Gate Count | Delay (ns) | Power (mW) | Area (μm²) |
+|------------|------------|------------|------------|------------|
+| RCA        | n*FA       | n*Tfa      | Low        | Small      |
+| CSA        | 1.5n*FA    | log(n)*Tfa | Medium     | Medium     |
+| CLA        | 2n*FA      | log(n)*Tfa | High       | Large      |
+| HCLA       | 1.8n*FA    | √n*Tfa     | Medium     | Medium     |
+| KS         | 2.3n*FA    | log(n)*Tfa | High       | Large      |
+
+### Implementation Plan {{implementation_strategy}}
+
+1. **Test Bench Development:**
+
+   ```
+   - Standard input patterns
+   - Worst-case propagation
+   - Power measurement points
+   - Area estimation tools
+   ```
+
+2. **Measurement Criteria:**
+
+   ```
+   Delay: Maximum propagation time
+   Power: Average switching power
+   Area: Gate count * standard cell area
+   ```
+
+3. **Optimization Targets:**
+
+   ```
+   Speed: Critical path reduction
+   Power: Minimize switching activity
+   Area: Efficient layout strategies
+   ```
