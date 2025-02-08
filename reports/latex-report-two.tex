@@ -1,0 +1,168 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+\title{Lab Two: Building with Gates (Carry-In = 0)}
+\author{Due Date: Monday, 2/3 \\ Week 3 (23, 25) – CIS 240 Micro Arch \& Prog (31563)}
+\date{}
+
+\lstset{
+  backgroundcolor=\color{white},
+  basicstyle=\footnotesize\ttfamily,
+  breaklines=true,
+  captionpos=b,
+  commentstyle=\color{green},
+  keywordstyle=\color{blue},
+  stringstyle=\color{black},
+  numbers=none,
+  frame=single,
+}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+\subsection{Objective}
+\textit{"The objective of this lab is to design, simulate, and test a single-bit adder block with Carry-In = 0 using NAND gates and other basic logic in LTSpice. Then, we optimize the Least Significant Bit (LSB) block by removing the carry-in input entirely, creating a simplified half-adder."}
+
+\subsection{Overview}
+In this lab report, we undertake the following:
+\begin{itemize}
+    \item \textbf{Part 1:} Implement a single-bit adder assuming Carry-In = 0.
+    \item \textbf{Part 2:} Optimize the design by removing the Carry-In input from the LSB block.
+\end{itemize}
+Verification is achieved through truth tables, SOP derivations, LTSpice simulations, and integration testing.
+
+\section{Part 1: Main Block Design (Carry-In = 0)}
+\subsection{Understanding the Problem}
+Design a half-adder that adds two input bits, A[0] and B[0], with a fixed carry-in of 0.
+
+\subsection{Truth Tables}
+\subsubsection*{SUM Truth Table}
+\begin{center}
+\begin{tabular}{|c|c|c|l|}
+\hline
+\textbf{A[0]} & \textbf{B[0]} & \textbf{Sum[0]} & \textbf{Explanation} \\ \hline
+0 & 0 & 0 & 0 + 0 = 0 (no carry) \\ \hline
+0 & 1 & 1 & 0 + 1 = 1 (no carry) \\ \hline
+1 & 0 & 1 & 1 + 0 = 1 (no carry) \\ \hline
+1 & 1 & 0 & 1 + 1 = 2, thus 0 with a carry of 1 \\ \hline
+\end{tabular}
+\end{center}
+
+\subsubsection*{CARRY-OUT Truth Table}
+\begin{center}
+\begin{tabular}{|c|c|c|l|}
+\hline
+\textbf{A[0]} & \textbf{B[0]} & \textbf{Carry\_Out} & \textbf{Explanation} \\ \hline
+0 & 0 & 0 & No carry generated \\ \hline
+0 & 1 & 0 & 0 + 1 = 1 (no carry) \\ \hline
+1 & 0 & 0 & 1 + 0 = 1 (no carry) \\ \hline
+1 & 1 & 1 & 1 + 1 = 2, carry generated \\ \hline
+\end{tabular}
+\end{center}
+
+\noindent \textbf{Block Function:}  
+\[
+\text{Sum}[0] = A[0] \oplus B[0], \quad \text{Carry\_Out} = A[0] \cdot B[0]
+\]
+The design behaves as a half-adder since Carry-In is fixed at 0.
+
+\subsection{Derivation of Logic (SOP Method)}
+\noindent \textbf{Sum[0]:}
+\[
+\text{Sum}[0] = \overline{A[0]}\,B[0] + A[0]\,\overline{B[0]} \quad \text{(i.e., } A[0] \oplus B[0] \text{)}
+\]
+\noindent \textbf{Carry\_Out:}
+\[
+\text{Carry\_Out} = A[0] \cdot B[0]
+\]
+
+\subsection{Circuit Implementation Steps}
+\begin{enumerate}
+    \item Enter the circuit in LTSpice.
+    \item Create a block symbol for the half-adder.
+    \item Develop a test schematic by applying pulse/voltage sources.
+    \item Perform transient simulation to verify the truth tables.
+    \item Backup all design files (e.g., \texttt{.asc}, \texttt{.asy}) and simulation screenshots.
+\end{enumerate}
+
+\section{Part 2: LSB Block Optimization (No Carry-In Input)}
+\subsection{Schematic Layout}
+\begin{itemize}
+    \item \textbf{Inputs:} Label as \texttt{A[0]} and \texttt{B[0]}.
+    \item \textbf{XOR Implementation:} Use two NAND gates with corresponding inverters to generate the XOR function:
+    \begin{itemize}
+        \item One NAND gate for \((A, \overline{B})\).
+        \item One NAND gate for \((\overline{A}, B)\).
+        \item Combine these outputs with an OR or NAND-inverter configuration to yield \texttt{Sum[0]}.
+    \end{itemize}
+    \item \textbf{Carry Logic:} Implement using an AND gate:
+    \[
+    \text{Carry\_Out} = A[0] \cdot B[0]
+    \]
+\end{itemize}
+
+\subsection{Rationale for Using NAND + Inverters}
+NAND gates are universal. Inverters allow for the creation of XOR functionality with fewer parts and simplified wiring, especially when the Carry-In is omitted.
+
+\subsection{Symbol Creation in LTSpice}
+\begin{enumerate}
+    \item Open the symbol editor (\texttt{Hierarchy $\rightarrow$ Open Symbol} or \texttt{Edit $\rightarrow$ Create Symbol}).
+    \item Draw the symbol and add the pins: \texttt{A[0]}, \texttt{B[0]}, \texttt{Sum[0]}, and \texttt{Carry\_Out}.
+    \item Save the symbol as a \texttt{.asy} file.
+\end{enumerate}
+
+\subsection{Top-Level Test Schematic \& Simulation}
+\begin{enumerate}
+    \item Place the new symbol as a subcircuit.
+    \item Drive inputs with test patterns (00, 01, 10, 11) using pulse/voltage sources.
+    \item Connect waveform probes to monitor \texttt{Sum[0]} and \texttt{Carry\_Out}.
+    \item Ensure that simulation outputs match the predetermined truth tables.
+\end{enumerate}
+
+\subsection{Integration}
+\begin{enumerate}
+    \item Remove the old LSB symbol.
+    \item Insert the optimized LSB block.
+    \item Re-run simulations to confirm valid behavior across all test conditions.
+\end{enumerate}
+
+\section{Discussion}
+Discuss the following:
+\begin{itemize}
+    \item Comparison between the original design and the optimized LSB block.
+    \item Challenges encountered while converting NAND gates to perform XOR functionality.
+    \item How the half-adder functionality can be extended into multi-bit adder circuits.
+\end{itemize}
+
+\section{Conclusion}
+\textbf{Summary:}  
+"Through SOP derivations and LTSpice simulations, we confirmed that both the main block (with Carry-In = 0) and the optimized LSB design (with no Carry-In) correctly implement the half-adder behavior."
+
+\noindent \textbf{Key Difference:}  
+The optimized design omits the Carry-In, simplifying the circuitry while maintaining proper function.
+
+\section{Next Steps}
+\begin{itemize}
+    \item Extend the design into a complete 4-bit or n-bit ripple-carry adder.
+    \item Further optimize timing, power, and physical layout.
+\end{itemize}
+
+\section{Appendix and References}
+\begin{itemize}
+    \item \textbf{Truth Tables and SOP Derivations:} See Sections 2.2 and 2.3.
+    \item \textbf{LTSpice Files:} Include \texttt{.asc} schematics, \texttt{.asy} symbols, and simulation screenshots.
+    \item \textbf{References:} List textbooks, lecture materials, and online resources consulted.
+\end{itemize}
+
+\end{document} 
