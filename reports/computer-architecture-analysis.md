@@ -5,8 +5,9 @@
 ### Structure Overview
 
 - The complete adder is implemented as part of a larger computer architecture
-- Utilizes ALU (Arithmetic Logic Unit) for addition operations
-- Incorporates register file for temporary storage
+- Utilizes a 4-bit Carry-Lookahead Adder (CLA) within the ALU (Arithmetic Logic Unit) for addition operations
+- The ALU takes two 4-bit inputs, A and B, and a control signal (AddSub) to select between addition and subtraction
+- Incorporates a register file for temporary storage of operands and results
 - Features data memory for operand storage
 
 ### Detailed Adder Design
@@ -114,10 +115,11 @@
 ### Key Components
 
 1. **ALU (X4)**
-   - Performs addition operations (AddSub1)
-   - Handles 3-bit operations
+   - Performs addition and subtraction operations via AddSub control signal
+   - Implements 4-bit operations using Carry-Lookahead Adder
    - Connected to register file for operand access
    - Outputs Sum[3:0] for computation results
+   - Generates carry-out flag for overflow detection
 
 2. **Register File (X3)**
    - Contains multiple registers for data storage
@@ -133,20 +135,28 @@ The computer implements a basic instruction set with the following formats:
 
 1. **Instruction Formats**
 
+   All instructions are 8 bits wide with the following format:
+
    ```
-   ADD: 00 Dest:A/B Dest:A/B
-   SUB: 01 Dest:A/B Dest:A/B
-   LOAD: 11 DataMem Address | Reg used
-   STORE: 10 Reg[2:0] | DataMem Address
+   ADD:   00 Dest[2:0] X Src[1:0]  ; Add source register to destination register
+   SUB:   01 Dest[2:0] X Src[1:0]  ; Subtract source from destination register
+   LOAD:  11 Reg[2:0] X Addr[1:0]  ; Load from memory address to register
+   STORE: 10 Reg[2:0] X Addr[1:0]  ; Store register to memory address
    ```
+
+   Where:
+   - First 2 bits: Opcode (00=ADD, 01=SUB, 10=STORE, 11=LOAD)
+   - Next 3 bits: Register specifier (Dest/Reg)
+   - 1 bit: Reserved/unused (X)
+   - Last 2 bits: Source register or memory address
 
 2. **Program Example**
 
    ```
-   LOAD R0 0 -> 11 000 X 00
-   LOAD R1 1 -> 11 001 X 01
-   ADD R3 R0 R1 -> 00 011 X 00
-   STORE R3 -> 10 001 X 11
+   LOAD R0 0 -> 11 000 X 00  ; Load value from memory address 0 into R0
+   LOAD R1 1 -> 11 001 X 01  ; Load value from memory address 1 into R1
+   ADD R3 R0 R1 -> 00 011 X 00  ; Add R0 and R1, store result in R3
+   STORE R3 -> 10 011 X 11  ; Store R3's value to memory address 3
    ```
 
 ### Hardware Components
@@ -154,14 +164,16 @@ The computer implements a basic instruction set with the following formats:
 1. **Instruction Memory**
    - SRAM implementation
    - Stores program instructions
-   - 7-bit instruction width
+   - 8-bit instruction width
    - Sequential instruction fetch
 
 2. **Data Memory (X6)**
-   - Supports read/write operations
-   - Connected to register file
-   - Address-based access
-   - 3-bit data width
+   - SRAM-based implementation with 4 memory locations
+   - Supports read/write operations via WrMem signal
+   - Connected to register file for data transfer
+   - Address-based access using 2-bit address (WrAddr[1:0])
+   - 4-bit data width (Data[3:0])
+   - Synchronous operation with clock
 
 3. **Control Logic**
    - Instruction decode unit
