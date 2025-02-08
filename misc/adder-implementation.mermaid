@@ -1,0 +1,31 @@
+graph TD
+    A[Design Specification] --> B[Truth Table Construction]
+    B --> C[Boolean Logic Design]
+    C --> D[Gate Level Implementation]
+    D --> E[LTSpice Simulation]
+    
+    subgraph Design Phase
+        B --> F[Full Adder Truth Table]
+        B --> G[LSB Adder Truth Table]
+        C --> H[SOP Expressions]
+        C --> I[Logic Optimization]
+    end
+    
+    subgraph Implementation Phase
+        D --> J[Full Adder Circuit]
+        D --> K[LSB Block Design]
+        E --> L[Simulation Results]
+        E --> M[Verification]
+    end
+    
+    subgraph Documentation
+        N[Circuit Diagrams]
+        O[Test Results]
+        P[Performance Analysis]
+        Q[Integration Notes]
+    end
+    
+    L --> N
+    M --> O
+    L --> P
+    K --> Q
