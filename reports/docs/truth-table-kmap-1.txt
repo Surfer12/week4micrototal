@@ -1,0 +1,45 @@
+# Truth Table and K-Map Analysis
+# Version: 1.0
+# Last Updated: 2025-02-10
+
+## 1. Full Adder Truth Table
+| A | B | Cin | Sum | Cout | Analysis        |
+|---|---|-----|-----|------|----------------|
+| 0 | 0 | 0   | 0   | 0    | No inputs      |
+| 0 | 0 | 1   | 1   | 0    | Only Cin       |
+| 0 | 1 | 0   | 1   | 0    | Only B         |
+| 0 | 1 | 1   | 0   | 1    | B + Cin        |
+| 1 | 0 | 0   | 1   | 0    | Only A         |
+| 1 | 0 | 1   | 0   | 1    | A + Cin        |
+| 1 | 1 | 0   | 0   | 1    | A + B          |
+| 1 | 1 | 1   | 1   | 1    | All inputs     |
+
+## 2. K-Map for Sum
+    Cin,B\A | 0 | 1 |
+    --------|---|---|
+     0  0   | 0 | 1 |
+     0  1   | 1 | 0 |
+     1  0   | 1 | 0 |
+     1  1   | 0 | 1 |
+
+Sum = A⊕B⊕Cin  // XOR chain
+
+## 3. K-Map for Cout
+    Cin,B\A | 0 | 1 |
+    --------|---|---|
+     0  0   | 0 | 0 |
+     0  1   | 0 | 1 |
+     1  0   | 0 | 1 |
+     1  1   | 1 | 1 |
+
+Cout = AB + ACin + BCin  // Majority function
+
+## 4. Verification Rules
+1. Sum is 1 when odd number of inputs are 1
+2. Cout is 1 when two or more inputs are 1
+3. Each output combination is unique and valid
+
+## 5. Cross-References
+- Input definitions → Section 1.3
+- Boolean expressions → Section 2.4
+- Gate implementation → Section 3.1

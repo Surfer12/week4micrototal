@@ -1,0 +1,47 @@
+# Digital Logic Design Notation System
+# Version: 1.0
+# Last Updated: 2025-02-10
+
+## 1. Gate Symbols and Operators
+AND     : • (dot) or ∧     // Logic AND operation
+OR      : + or ∨           // Logic OR operation
+NOT     : ' or ¯ or ¬      // Logic NOT operation
+XOR     : ⊕                // Exclusive OR operation
+NAND    : ↑ or |          // NOT-AND operation
+NOR     : ↓                // NOT-OR operation
+
+## 2. Signal Representation
+Logic HIGH : 1 or H        // Represents binary 1 / TRUE
+Logic LOW  : 0 or L        // Represents binary 0 / FALSE
+Don't Care : X or -        // Undefined/irrelevant state
+Transition : ↑ or ↓        // Rising or falling edge
+
+## 3. Circuit Notation
+Input Signal    : A, B, Cin   // Primary inputs
+Output Signal   : S, Cout     // Primary outputs
+Internal Node   : N1, N2      // Internal connections
+Bus             : [n:0]       // Multi-bit signals
+
+## 4. Boolean Expression Format
+Product Term    : AB          // AND of variables (implied •)
+Sum Term        : A + B       // OR of variables
+Complement      : A'          // NOT of variable
+Precedence      : ()          // Grouping of operations
+
+## 5. Truth Table Format
+| Inputs | Outputs |
+| A B Cin | Sum Cout |
+|---------|---------|
+| 0 0 0   | 0   0   |
+
+## 6. Timing Parameters
+tPD  : Propagation Delay
+tS   : Setup Time
+tH   : Hold Time
+tW   : Minimum Pulse Width
+
+## 7. Verification Symbols
+✓    : Verified/Correct
+×    : Error/Issue Found
+→    : Implies/Leads to
+⇒    : Therefore/Results in
