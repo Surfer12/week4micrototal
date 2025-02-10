@@ -1,0 +1,709 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry} % Adjust margins if needed
+\usepackage{amsmath} % For \text and other math commands
+\usepackage{amssymb}
+%\usepackage{fontspec} % Removed for pdfLaTeX compatibility
+%\usepackage{unicode-math} % Removed for pdfLaTeX compatibility
+%\setmainfont{Latin Modern Roman} % Removed for pdfLaTeX compatibility
+%\setmathfont{Latin Modern Math} % Removed for pdfLaTeX compatibility
+
+\begin{document}
+\noindent Hw3a Lab Report Ongoing
+
+\noindent Ryan Oates
+
+\noindent [Notation Key]
+
+\noindent GateSymbolNotation = [List of logic gate symbols used in this design]
+
+\noindent ; e.g., AND ($\land$), OR ($\lor$), NOT ($\lnot$), etc., to represent gate operations in Boolean expressions.
+
+\vspace{0.5em}
+
+\noindent WireConnectionSymbols = [Notation for wires and connections in circuit diagrams]
+
+\noindent ; e.g., lines for connections, a dot for junction, labels/arrows for inputs and outputs.
+
+\vspace{0.5em}
+
+\noindent LogicLevelsRepresentation = [Definition of logic high and low levels]
+
+\noindent ; e.g., use `1` (HIGH/True) and `0` (LOW/False) to denote binary logic levels.
+
+\vspace{0.5em}
+
+\noindent BooleanExpressionNotation = [Format for writing Boolean formulas]
+
+\noindent ; e.g., use `+' for OR, `$\cdot$' or concatenation for AND, overline or `!' for NOT (A + B means A OR B, AB or A$\cdot$B means A AND B, $\overline{A}$ means NOT A).
+
+\noindent ; Note: These notations are used throughout (in the truth table, K-map, expressions, and diagrams). See Glossary for definitions of terms and symbols.
+
+\vspace{0.5em}
+
+\noindent ; $\checkmark$/$\times$ Verification:
+
+\noindent verify\_symbols\_defined = ($\checkmark$/$\times$) ; All necessary gate symbols and wire notations are defined above. (Comment: \_\_\_)
+
+\noindent verify\_logic\_levels = ($\checkmark$/$\times$) ; Logic 0/1 representation is clear and used consistently. (Comment: \_\_\_)
+
+\noindent verify\_notation\_consistency = ($\checkmark$/$\times$) ; Boolean expression notation is consistent across all sections. (Comment: \_\_\_)
+
+\vspace{0.5em}
+
+\noindent [Possible Inputs]
+
+\noindent InputVariables = [List of input variable names]
+
+\noindent ; e.g., A, B, C (representing all independent inputs to the logic circuit).
+
+\vspace{0.5em}
+
+\noindent InputDomain = [All possible values or conditions for each input]
+
+\noindent ; e.g., each input $\in$ \{0,1\} for binary logic (enumerate any constraints or don't-care conditions if applicable).
+
+\noindent ; Note: These inputs define the domain for the Truth Table.
+
+\noindent ... (about 599 lines omitted) ...
+
+\noindent \begin{tabular}{c|c|c|c|c|l}
+Time  & A & B & Sum & Carry & Analysis \\
+20-40ns & 1 & 0 &  1  &   0   & A transition \\
+40-60ns & 1 & 1 &  0  &   1   & B transition, carry generated \\
+60-80ns & 0 & 1 &  1  &   0   & A transition \\
+80-100ns& 0 & 0 &  0  &   0   & Return to initial state
+\end{tabular}
+
+\vspace{0.5em}
+
+\noindent [DESIGN\_HISTORY]
+
+\noindent iterations="""
+
+\noindent v1: Initial design (redundant inputs)
+
+\noindent v2: Simplified inputs
+
+\noindent v3: Corrected carry generation
+
+\noindent v4: Final verified design
+
+\noindent """
+
+\vspace{0.5em}
+
+\noindent [VISUALIZATION\_GUIDELINES]
+
+\noindent setup\_steps="""
+
+\noindent 1. Right-click signal names for color options
+
+\noindent 2. Tools-->Settings-->Waveforms for trace width
+
+\noindent 3. Tools-->Color preferences for background
+
+\noindent 4. Maximize RGB values (255) for clarity
+
+\noindent """
+
+\vspace{0.5em}
+
+\noindent [VERIFICATION\_CHECKLIST]
+
+\noindent $\checkmark$ truth\_table\_verified
+
+\noindent $\checkmark$ timing\_requirements\_met
+
+\noindent $\checkmark$ carry\_generation\_correct
+
+\noindent $\checkmark$ waveform\_visualization\_optimized
+
+\noindent KMapLayout = [K-Map cell arrangement]
+
+\noindent ; e.g., 2x2, 4x4 grid with Gray code ordering of inputs on rows/columns, as appropriate for the number of variables.
+
+\noindent KMapFilling = [Assignment of output values to K-map cells]
+
+\noindent; e.g., place 1s and 0s in K-map cells corresponding to truth table outputs (1 for minterms where F=1).
+
+\noindent KMapGrouping = [Identify groups of adjacent 1s (or 0s for POS) in the K-map]
+
+\noindent ; e.g., list groups by cells covered (binary indices) and the common variables for each group.
+
+\noindent KMapSimplificationSteps = [Step-by-step simplification]
+
+\noindent; e.g., "Group1 (cells 0101, 0100, 0000, 0001) yields term $\lnot$A$\cdot$$\lnot$C", etc.
+
+\noindent KMapResultExpression = [Simplified Boolean expression from K-map]
+
+\noindent; e.g., F = $\lnot$A$\cdot$$\lnot$C + B$\cdot$$\lnot$C (result of grouping). This is the minimized Sum-of-Products form derived via the K-map.
+
+\noindent ; Note: K-map simplification is based on the Truth Table and yields a minimal expression. The result will be used to inform the Gate Operations and is cross-checked by Boolean algebra in [Boolean Expression Reduction].
+
+\vspace{0.5em}
+
+\noindent ; $\checkmark$/$\times$ Verification:
+
+\noindent verify\_grouping\_complete = ($\checkmark$/$\times$) ; All 1-cells are covered by groups (including any don't-cares if used), with groups sized in powers of 2. (Comment: \_\_\_)
+
+\noindent verify\_minimal\_expression = ($\checkmark$/$\times$) ; The K-map result is a minimal expression (no further reduction possible, no redundant groups). (Comment: \_\_\_)
+
+\noindent verify\_expression\_correct = ($\checkmark$/$\times$) ; The simplified expression from K-map produces the same output as the original truth table (validated by checking key input cases or re-deriving truth table from it). (Comment: \_\_\_)
+
+\vspace{0.5em}
+
+\noindent [Gate Operations]
+
+\noindent ; Define the logic gates implementing the simplified expression:
+
+\noindent Gate1 = [Gate type and inputs -> output]
+
+\noindent ; e.g., G1: AND gate with inputs A and B, output = X (implements X = A $\land$ B).
+
+\noindent Gate2 = [Gate type and inputs -> output]
+
+\noindent ; e.g., G2: NOT gate with input C, output = Y (implements Y = $\lnot$C).
+
+\noindent Gate3 = [Gate type and inputs -> output]
+
+\noindent ; e.g., G3: OR gate with inputs X and Y, output = F (implements F = X + Y).
+
+\noindent GateOperationNotes = [Any additional info about gate behavior/timing]
+
+\noindent ; e.g., All gates are assumed ideal for logic levels (output transitions occur after a small propagation delay). If timing is critical, note propagation delays or if this is a synchronous circuit, note clocking.
+
+\noindent ; Note: The above gates realize the expression from [K-Map Reduction] (F = X + Y in the example) using standard logic symbols from [Notation Key]. Each gate's logical function (AND, OR, NOT) is defined in the Glossary (e.g., AND gate outputs 1 only if all inputs are 1).
+
+\vspace{0.5em}
+
+\noindent ; $\checkmark$/$\times$ Verification:
+
+\noindent verify\_gates\_complete = ($\checkmark$/$\times$) ; All parts of the simplified Boolean expression are implemented by the listed gates (no missing term or signal). (Comment: \_\_\_)
+
+\noindent verify\_output\_consistency = ($\checkmark$/$\times$) ; The output from the gate network matches the expected truth table output for each input combination (circuit logic is correct). (Comment: \_\_\_)
+
+\noindent verify\_notation\_adherence = ($\checkmark$/$\times$) ; Gate symbols and wiring in the described implementation follow the Notation Key (correct symbols for each gate, proper label names). (Comment: \_\_\_)
+
+\noindent verify\_timing\_addressed = ($\checkmark$/$\times$) ; Any necessary timing considerations (propagation delay, gate switching speed) are noted and acceptable for the design. (Comment: \_\_\_)
+
+\vspace{0.5em}
+
+\noindent [Circuit Diagram Representation]
+
+\noindent DiagramIllustration = [Reference or description of the circuit diagram]
+
+\noindent ; (In an actual document, this could be an embedded schematic image or ASCII diagram of the circuit. e.g., a drawn logic diagram with gates labeled G1, G2, G3 as above.)
+
+\noindent DiagramNotation = [Explanation of diagram symbols/legends]
+
+\noindent ; e.g., AND/OR/NOT gate shapes per standard, dots on lines for junctions, distinctive symbols for inputs and outputs as defined in Notation Key.
+
+\noindent DiagramLabels = [List of labeled signals in diagram]
+
+\noindent ; e.g., label inputs (A, B, C), outputs (F), and intermediate nodes (X, Y) corresponding to the Gate Operations.
+
+\noindent ; Note: The circuit diagram provides a visual confirmation of the [Gate Operations]. It should use the symbols from [Notation Key] and reflect the connections described (e.g., output of G1 feeds one input of G3, etc.).
+
+\vspace{0.5em}
+
+\noindent ; $\checkmark$/$\times$ Verification:
+
+\noindent verify\_diagram\_accuracy = ($\checkmark$/$\times$) ; Diagram matches the gate-level implementation (all gates and connections correspond to those listed in Gate Operations). (Comment: \_\_\_)
+
+\noindent verify\_label\_consistency = ($\checkmark$/$\times$) ; Every signal in the diagram (inputs, outputs, nodes) is clearly labeled and matches the naming in the text/tables. (Comment: \_\_\_)
+
+\noindent verify\_symbol\_standard = ($\checkmark$/$\times$) ; All symbols in the diagram are standard and were defined in the Notation Key (no undefined symbols or ambiguous notations). (Comment: \_\_\_)
+
+\vspace{0.5em}
+
+\noindent [Full Signal Analysis]
+
+\noindent ; Analyze signal propagation and node equations in the circuit:
+
+\noindent NodeEquations = [List Boolean equations for intermediate nodes]
+
+\noindent ; e.g., X = A $\land$ B, Y = $\lnot$C (from Gate1 and Gate2 outputs as defined in Gate Operations).
+
+\noindent OutputEquation = [Boolean equation for output in terms of nodes or inputs]
+
+\noindent ; e.g., F = X + Y (which, when expanded, matches the simplified Boolean expression).
+
+\noindent PropagationSteps = [Describe the sequence of signal propagation through the circuit]
+
+\noindent ; e.g., "Inputs A,B feed AND gate -> X. Input C feeds NOT gate -> Y. Then X and Y feed OR gate -> F. Thus, a change in A or B propagates through G1 then G3 to F; a change in C propagates through G2 then G3."
+
+\noindent TimingAnalysis = [If applicable, note the critical path or propagation delay]
+
+\noindent ; e.g., "Worst-case propagation: a change on A or B travels through two gates (AND then OR) to affect F, whereas a change on C travels through NOT then OR. Assuming each gate has similar delay, the critical path is two gates long. No hazards/glitches were observed as all inputs feed combinational gates with proper synchronization (see Propagation Delay in Glossary)."
+
+\noindent ; Note: This analysis verifies that each intermediate node's logic (node equations) and the timing of signal changes produce the correct final output as specified in the [Truth Table]. It ties the static logic design to dynamic behavior (propagation).
+
+\vspace{0.5em}
+
+\noindent; $\checkmark$/$\times$ Verification:
+
+\noindent verify\_node\_logic = ($\checkmark$/$\times$) ; Every intermediate node equation is consistent with the intended logic and the overall Boolean expression. (Comment: \_\_\_)
+
+\noindent verify\_propagation\_correctness = ($\checkmark$/$\times$) ; For each input scenario, following the signal path through nodes yields the correct output (matches truth table -- ensures no logical discrepancies at any stage). (Comment: \_\_\_)
+
+\noindent verify\_timing\_consistency = ($\checkmark$/$\times$) ; Signal propagation times are acceptable and do not violate any design requirements (or timing not an issue for static combinational logic). Any potential glitches or race conditions checked. (Comment: \_\_\_)
+
+\vspace{0.5em}
+
+\noindent [SOP Reduction]
+
+\noindent InitialSOP = [Sum-of-Products expression derived from the truth table]
+
+\noindent ; e.g., list of minterms: F = A$\cdot$B$\cdot$$\lnot$C + A$\cdot$B$\cdot$C + ... (each term corresponds to an input combination where output=1 in the Truth Table).
+
+\noindent ReductionSteps = [Algebraic reduction steps applied to simplify the SOP]
+
+\noindent ; e.g., combine terms using Boolean algebra theorems:
+
+\noindent ;   F = A$\cdot$B$\cdot$$\lnot$C + A$\cdot$B$\cdot$C  -> factor A$\cdot$B: F = A$\cdot$B($\lnot$C + C)
+
+\noindent ;   -> simplify ($\lnot$C + C = 1): F = A$\cdot$B
+
+\noindent ;   (show step-by-step simplification of the SOP expression).
+
+\noindent ReducedSOP = [Final minimized SOP expression]
+
+\noindent ; e.g., F = A$\cdot$B + $\lnot$C$\cdot$B (the simplified sum-of-products form, which should match the K-Map result).
+
+\noindent ; Note: This section provides an algebraic simplification of the Sum-of-Products derived from the Truth Table. The final result should coincide with the expression from [K-Map Reduction], confirming the minimization is correct.
+
+\vspace{0.5em}
+
+\noindent ; $\checkmark$/$\times$ Verification:
+
+\noindent verify\_all\_minterms\_used = ($\checkmark$/$\times$) ; Initial SOP includes all required minterms for output=1 (covers every truth table case where F=1). (Comment: \_\_\_)
+
+\noindent verify\_algebraic\_steps = ($\checkmark$/$\times$) ; Boolean algebra steps are correctly applied (each simplification step is valid). (Comment: \_\_\_)
+
+\noindent verify\_sop\_matches\_kmap = ($\checkmark$/$\times$) ; The reduced SOP expression matches the simplified result from K-Map Reduction (thus both methods agree on final expression). (Comment: \_\_\_)
+
+\vspace{0.5em}
+
+\noindent [Boolean Expression Reduction]
+
+\noindent InitialExpression = [Original Boolean expression before simplification]
+
+\noindent ; e.g., starting expression from requirements or the full SOP expression before reduction.
+
+\noindent TargetExpression = [Target (simplified) Boolean expression]
+
+\noindent ; e.g., the expected simplified expression (from K-Map or known simplest form).
+
+\noindent ReductionTechnique = [Method used for reduction]
+
+\noindent ; e.g., algebraic manipulation, applying identities (consensus theorem, De Morgan's law, etc.) to reach the simplified form.
+
+\noindent ReductionProof = [Proof or validation of equivalence]
+
+\noindent ; e.g., a brief statement: "Verified equivalence by truth table comparison or Boolean algebra proof showing initial expression equals simplified expression."
+
+\noindent FinalBooleanExpression = [The final simplified Boolean expression for the design]
+
+\noindent ; e.g., F = A$\cdot$B + $\lnot$C$\cdot$B (from our example), which is the form implemented by the circuit.
+
+\noindent ; Note: This section ensures the logical expression of the circuit is fully simplified and correct. It should confirm that the expression derived (via K-Map or SOP) is indeed the most reduced form and is logically equivalent to the original specification. This final expression is the one realized in [Gate Operations].
+
+\vspace{0.5em}
+
+\noindent ; $\checkmark$/$\times$ Verification:
+
+\noindent verify\_equivalence\_proven = ($\checkmark$/$\times$) ; Demonstrated that the initial and final expressions are equivalent (via truth table or symbolic proof). (Comment: \_\_\_)
+
+\noindent verify\_expression\_minimal = ($\checkmark$/$\times$) ; The final Boolean expression is simplified to minimal terms/literals (no further simplification possible). (Comment: \_\_\_)
+
+\noindent verify\_consistency\_final = ($\checkmark$/$\times$) ; The final expression aligns with the implemented circuit (the gates in the design realize this expression) and with the truth table outputs. (Comment: \_\_\_)
+
+\vspace{0.5em}
+
+\noindent [Direct Links]
+
+\noindent NotationKey\_related     = Used by all sections for consistent symbols (e.g., gate symbols in Gate Operations, logic levels in Truth Table).
+
+\noindent PossibleInputs\_related  = Feeds into Truth Table (defines all combinations for which outputs are determined).
+
+\noindent TruthTable\_related      = Basis for K-Map Reduction and SOP Reduction (provides the raw output combinations for simplification).
+
+\noindent KMapReduction\_related   = Simplifies the Truth Table outputs to a minimal expression (used by Gate Operations, cross-checked in Boolean Expression Reduction).
+
+\noindent GateOperations\_related  = Implements the simplified expression (from K-Map/SOP) with physical gates, referencing symbols from Notation Key.
+
+\noindent CircuitDiagram\_related  = Visual representation of Gate Operations (wiring and gates), using the notations defined in Notation Key.
+
+\noindent FullSignalAnalysis\_related = Verifies signal flow and timing from inputs to output (ensures dynamic behavior matches static Truth Table logic).
+
+\noindent SOPReduction\_related    = Alternative/parallel simplification method (derives simplified expression from truth table, should match K-Map result).
+
+\noindent BooleanExprReduction\_related = Final verification of expression simplification (confirms K-Map and SOP results, ensuring correct implementation).
+
+\noindent Glossary\_related        = Provides definitions of terms and symbols (e.g., gates, K-Map, SOP) used throughout the document for quick reference.
+
+\vspace{0.5em}
+
+\noindent [Glossary]
+
+\noindent AND Gate = Logic gate that outputs 1 (true) only if \textbf{all} its inputs are 1. (Logical conjunction; symbol $\land$ or \&)
+
+\noindent OR Gate  = Logic gate that outputs 1 if \textbf{at least one} input is 1. (Logical disjunction; symbol $\lor$ or +)
+
+\noindent NOT Gate = Logic gate that outputs the logical \textbf{negation} of its input (outputs 1 if input is 0, and vice versa). (Inversion; symbol $\lnot$ or ! or ')
+
+\noindent Logic 1 (HIGH) = The higher logic level in binary (e.g., True, "1", high voltage level) representing boolean true.
+
+\noindent Logic 0 (LOW)  = The lower logic level (e.g., False, "0", low voltage level) representing boolean false.
+
+\noindent Truth Table = A table listing all possible combinations of input values and the corresponding output for a logic function. Used to define the behavior of the logic circuit exhaustively.
+
+\noindent Karnaugh Map (K-Map) = A graphical method for simplifying Boolean expressions by organizing truth table values into a grid, allowing common terms to be combined. It helps reduce logic expressions to minimal form.
+
+\noindent Sum-of-Products (SOP) = A canonical Boolean form where the expression is a OR (sum) of multiple AND (product) terms. Each product term corresponds to a combination of inputs that yields output 1.
+
+\noindent Boolean Expression = An algebraic expression composed of boolean variables and logic operators (AND, OR, NOT, etc.) representing a logic function. E.g., F = A$\cdot$B + $\lnot$C.
+
+\noindent Node (Intermediate) = A connection or intermediate signal in the circuit (output of a gate that is not the final output). Often labeled (e.g., X, Y) and has its own Boolean equation in the context of the circuit.
+
+\noindent Node Equation = The Boolean expression for an intermediate node's value in terms of the circuit's input variables (and possibly other node values). E.g., X = A$\cdot$B defines node X as the AND of A and B.
+
+\noindent Propagation Delay = The time interval between an input change and the resulting output change in a logic circuit. Every logic gate has a finite switching speed, so signals take time to propagate through the circuit (see also Gate Delay).
+
+\noindent Signal Propagation = The movement of logic level changes through the circuit's network of gates and connections, from inputs to intermediate nodes to outputs.
+
+\noindent Verification Checklist = A list of steps or criteria used to verify the correctness of each part of the design. Each item is marked with a $\checkmark$ if passed or $\times$ if an issue is found, accompanied by comments explaining the result.
+
+\noindent Cross-Referencing = The practice of linking related sections or terms in the document for easy navigation. For example, referring to the Truth Table section when discussing K-Map, or pointing to Glossary definitions for specific terms.
+
+\noindent $\checkmark$ (Check mark) = Indicates a successful verification or a condition met. In the template, replace this symbol in a checkbox once the verification step is confirmed.
+
+\noindent $\times$ (Cross mark) = Indicates a failed verification or a condition not met. It denotes an issue that needs attention or correction, explained in the comments.
+
+\vspace{0.5em}
+
+\noindent [SIMULATION\_AND\_RESULTS]
+
+\noindent simulation\_tool=Tina
+
+\noindent test\_duration=100ns
+
+\noindent input\_stimulus="""
+
+\noindent A: 0->1 at 20ns, 1->0 at 60ns
+
+\noindent B: 0->1 at 40ns, 1->0 at 80ns
+
+\noindent """
+
+\vspace{0.5em}
+
+\noindent [WAVEFORM\_SETTINGS]
+
+\noindent display\_configuration="""
+
+\noindent Signal Colors:
+
+\noindent - A: Blue (RGB: 0,0,255)
+
+\noindent - B: Red (RGB: 255,0,0)
+
+\noindent - Sum: Green (RGB: 0,255,0)
+
+\noindent - Carry: Yellow (RGB: 255,255,0)
+
+\vspace{0.5em}
+
+\noindent Trace Settings:
+
+\noindent - Data Trace Width: 2px
+
+\noindent - Background: White (RGB: 255,255,255)
+
+\noindent - Grid: Light Gray (RGB: 200,200,200)
+
+\noindent """
+
+\vspace{0.5em}
+
+\noindent [SIMULATION\_RESULTS]
+
+\noindent waveform\_analysis="""
+\begin{tabular}{c|c|c|c|c|l}
+Time     & A & B & Sum & Carry & Analysis \\
+0-20ns   & 0 & 0 &  0  &   0   & Initial state \\
+20-40ns  & 1 & 0 &  1  &   0   & A transition \\
+40-60ns  & 1 & 1 &  0  &   1   & B transition, carry generated \\
+60-80ns  & 0 & 1 &  1  &   0   & A transition \\
+80-100ns & 0 & 0 &  0  &   0   & Return to initial state
+\end{tabular}
+
+\noindent """
+
+\vspace{0.5em}
+
+\noindent [VISUALIZATION\_TIPS]
+
+\noindent waveform\_optimization="""
+
+\noindent 1. Right-click signal name above graph to modify colors
+
+\noindent 2. Access Tools-->Settings-->Waveforms for trace width
+
+\noindent 3. Modify background via Tools-->Color preferences-->Waveform
+
+\noindent 4. Set RGB values to 255 for maximum visibility
+
+\noindent """
+
+\vspace{0.5em}
+
+\noindent [TROUBLESHOOTING\_NOTES]
+
+\noindent initial\_attempts="""
+
+\noindent 1. First attempt: Four inputs (redundant)
+
+\noindent    - Issue: Overcomplicated design
+
+\noindent    - Resolution: Simplified to two inputs
+
+\vspace{0.5em}
+
+\noindent 2. Carry implementation:
+
+\noindent    - Initial mistake: Added C input for carry
+
+\noindent    - Correction: Generated carry from A,B inputs
+
+\noindent    - Learning: Document mistakes to prevent future repetition
+
+\noindent """
+
+\vspace{0.5em}
+
+\noindent [DESIGN\_ITERATIONS]
+
+\noindent version\_history="""
+
+\noindent v1: Basic design with redundant inputs
+
+\noindent v2: Removed redundant inputs
+
+\noindent v3: Corrected carry generation
+
+\noindent v4: Final optimized design with simulation verification
+
+\noindent """
+
+\noindent Let's combine and streamline these templates into a more focused structure for
+
+\noindent your half-adder design documentation:
+
+\vspace{0.5em}
+
+\noindent [DOCUMENT\_METADATA]
+
+\noindent title=Half Adder Design Documentation
+
+\noindent version=1.0
+
+\noindent date=2024-02-XX
+
+\noindent author=Student\_Name
+
+\noindent course=Digital\_Design\_Lab\_Two
+
+\vspace{0.5em}
+
+\noindent [NOTATION\_AND\_SYMBOLS]
+
+\noindent gate\_symbols="""
+
+\noindent NAND = $\overline{AB}$
+
+\noindent AND = $\cdot$
+
+\noindent OR = +
+
+\noindent XOR = $\oplus$
+
+\noindent NOT = $\lnot$
+
+\noindent """
+
+\vspace{0.5em}
+
+\noindent circuit\_symbols="""
+
+\noindent Wire = \textemdash
+
+\noindent Junction = $\vdash$
+
+\noindent Turn =  $\lfloor$ $\lceil$
+
+\noindent Signal Flow = $\rightarrow$
+
+\noindent Inversion = $\circ$
+
+\noindent """
+
+\vspace{0.5em}
+
+\noindent logic\_levels="""
+
+\noindent HIGH = 1 (True)
+
+\noindent LOW = 0 (False)
+
+\noindent """
+
+\vspace{0.5em}
+
+\noindent [DESIGN\_SPECIFICATIONS]
+
+\noindent block\_type=Half\_Adder
+
+\noindent inputs=A,B
+
+\noindent outputs=Sum,Carry
+
+\noindent constraints=carry\_in=fixed\_zero
+
+\noindent implementation=NAND\_Based
+
+\vspace{0.5em}
+
+\noindent [IMPLEMENTATION\_DETAILS]
+
+\noindent circuit\_diagram="""
+
+\noindent A \textemdash$\vdash$\textemdash$\rightarrow$ [NAND1] \textemdash$\vdash$\textemdash$\rightarrow$ [NAND3] \textemdash$\rightarrow$ [OR] \textemdash$\rightarrow$ Sum
+
+\noindent    $|$              $|$
+
+\noindent B \textemdash$\dashv$\textemdash$\rightarrow$ [NAND2] \textemdash$\rfloor$
+
+\noindent    $|$
+
+\noindent    $\lfloor$\textemdash$\rightarrow$ [NAND4] \textemdash$\rightarrow$ Carry
+
+\noindent """
+
+\vspace{0.5em}
+
+\noindent truth\_table="""
+\begin{tabular}{|c|c|c|c|}
+\hline
+A & B & Sum & Carry \\
+\hline
+0 & 0 & 0   & 0     \\
+0 & 1 & 1   & 0     \\
+1 & 0 & 1   & 0     \\
+1 & 1 & 0   & 1     \\
+\hline
+\end{tabular}
+
+\noindent """
+
+\vspace{0.5em}
+
+\noindent [SIMULATION\_SETUP]
+
+\noindent tool=Tina
+
+\noindent duration=100ns
+
+\noindent input\_stimulus="""
+
+\noindent A: 0->1 at 20ns, 1->0 at 60ns
+
+\noindent B: 0->1 at 40ns, 1->0 at 80ns
+
+\noindent """
+
+\vspace{0.5em}
+
+\noindent [WAVEFORM\_CONFIGURATION]
+
+\noindent display\_settings="""
+
+\noindent Colors:
+
+\noindent - A: Blue (0,0,255)
+
+\noindent - B: Red (255,0,0)
+
+\noindent - Sum: Green (0,255,0)
+
+\noindent - Carry: Yellow (255,255,0)
+
+\vspace{0.5em}
+
+\noindent Trace Width: 2px
+
+\noindent Background: White
+
+\noindent Grid: Light Gray
+
+\noindent """
+
+\vspace{0.5em}
+
+\noindent [RESULTS\_AND\_ANALYSIS]
+
+\noindent timing\_analysis="""
+\begin{tabular}{c|c|c|c|c|l}
+Time     & A & B & Sum & Carry & Analysis \\
+0-20ns   & 0 & 0 &  0  &   0   & Initial state \\
+20-40ns  & 1 & 0 &  1  &   0   & A transition \\
+40-60ns  & 1 & 1 &  0  &   1   & B transition, carry generated \\
+60-80ns  & 0 & 1 &  1  &   0   & A transition \\
+80-100ns & 0 & 0 &  0  &   0   & Return to initial state
+\end{tabular}
+\noindent """
+
+\vspace{0.5em}
+
+\noindent [DESIGN\_HISTORY]
+
+\noindent iterations="""
+
+\noindent v1: Initial design (redundant inputs)
+
+\noindent v2: Simplified inputs
+
+\noindent v3: Corrected carry generation
+
+\noindent v4: Final verified design
+
+\noindent """
+
+\vspace{0.5em}
+
+\noindent [VISUALIZATION\_GUIDELINES]
+
+\noindent setup\_steps="""
+
+\noindent 1. Right-click signal names for color options
+
+\noindent 2. Tools-->Settings-->Waveforms for trace width
+
+\noindent 3. Tools-->Color preferences for background
+
+\noindent 4. Maximize RGB values (255) for clarity
+
+\noindent """
+
+\vspace{0.5em}
+
+\noindent [VERIFICATION\_CHECKLIST]
+
+\noindent $\checkmark$ truth\_table\_verified
+
+\noindent $\checkmark$ timing\_requirements\_met
+
+\noindent $\checkmark$ carry\_generation\_correct
+
+\noindent $\checkmark$ waveform\_visualization\_optimized
+\end{document}
